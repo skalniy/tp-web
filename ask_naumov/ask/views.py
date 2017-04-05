@@ -37,3 +37,6 @@ def signup(request):
 
 def ask(request):
     return render(login, './ask.html', context)
+
+def settings(request):
+    return render(login, './settings.html', context)
