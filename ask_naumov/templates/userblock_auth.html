@@ -5,5 +5,5 @@
 <li>
   <p class="navbar-text">{% lorem 1 w random %}</p>
 </li>
-<li><a href="/settings">settings</a></li>
-<li><a href="/">log out</a></li>
+<li><a href="{% url 'settings' %}">settings</a></li>
+<li><a href="{% url 'index' %}">log out</a></li>

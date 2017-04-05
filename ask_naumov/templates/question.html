@@ -14,7 +14,7 @@
      <p>
       Tags:
       {% for t in qtags %}
-          <a href="/tag/">{% lorem 1 w random %}</a>
+          <a href="{% url 'tag' 'bender' %}">{% lorem 1 w random %}</a>
       {% endfor %}
      </p>
     </div>
@@ -60,6 +60,4 @@
     </button>
   </form>
   </div>
-
-
 {% endblock %}

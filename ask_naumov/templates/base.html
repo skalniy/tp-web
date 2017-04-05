@@ -30,7 +30,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="/">AskNaumov</a>
+        <a class="navbar-brand" href="{% url 'index' %}">AskNaumov</a>
       </div>
 
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -67,7 +67,7 @@
           <div class="panel-heading"><h3 class="panel-title">Popular Tags</h3></div>
           <div class="panel-body">
             {% for t in toptags %}
-              <a href="/tag/">{% lorem 1 w random %}</a>
+              <a href="{% url 'tag' 'bender' %}">{% lorem 1 w random %}</a>
             {% endfor %}
           </div>
         </div>

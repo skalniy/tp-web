@@ -30,13 +30,13 @@ def question(request, question_id):
     return render(request, './question.html', context)
 
 def login(request):
-    return render(login, './login.html', context)
+    return render(request, './login.html', context)
 
 def signup(request):
-    return render(login, './signup.html', context)
+    return render(request, './signup.html', context)
 
 def ask(request):
-    return render(login, './ask.html', context)
+    return render(request, './ask.html', context)
 
 def settings(request):
-    return render(login, './settings.html', context)
+    return render(request, './settings.html', context)

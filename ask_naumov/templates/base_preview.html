@@ -6,7 +6,7 @@
     <input type="number" class="form-control" value="5">
   </div>
   <div class="col-sm-10">
-    <h4 class="list-group-item-heading"><a href="/question">{% lorem 6 w random %}</a></h4>
+    <h4 class="list-group-item-heading"><a href="{% url 'question' '1232343' %}">{% lorem 6 w random %}</a></h4>
     <p class="list-group-item-text">{% lorem 1 b random %}</p>
     <br>
     <div class="row">
@@ -14,7 +14,7 @@
       <p class="col-sm-10">
         Tags:
         {% for t in qtags %}
-            <a href="/tag/">{% lorem 1 w random %}</a>
+            <a href="{% url 'tag' 'bender' %}">{% lorem 1 w random %}</a>
         {% endfor %}
       </p>
     </div>
