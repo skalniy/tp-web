@@ -1,0 +1,21 @@
+<table>
+  <caption>GET</caption>
+  <th>key</th><th>value</th>
+  {% for k, v in request.GET.items %}
+    <tr>
+      <td>{{ k }}</td>
+      <td>{{ v }}</td>
+    </tr>
+  {% endfor %}
+</table>
+
+<table>
+  <caption>POST</caption>
+  <th>key</th><th>value</th>
+  {% for k, v in request.POST.items %}
+    <tr>
+      <td>{{ k }}</td>
+      <td>{{ v }}</td>
+    </tr>
+  {% endfor %}
+</table>
