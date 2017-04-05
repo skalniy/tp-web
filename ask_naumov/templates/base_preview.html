@@ -1,0 +1,22 @@
+<div class="row list-group-item">
+  <div class="col-sm-2">
+    {% load static %}
+    <img src="{% static "./img/avatar.jpg" %}" class="img-responsive img-rounded">
+    <br>
+    <input type="number" class="form-control" value="5">
+  </div>
+  <div class="col-sm-10">
+    <h4 class="list-group-item-heading"><a href="/question">{% lorem 6 w random %}</a></h4>
+    <p class="list-group-item-text">{% lorem 1 b random %}</p>
+    <br>
+    <div class="row">
+      <p class="col-sm-2"><a href="/question">answers (3)</a></p>
+      <p class="col-sm-10">
+        Tags:
+        {% for t in qtags %}
+            <a href="/tag/">{% lorem 1 w random %}</a>
+        {% endfor %}
+      </p>
+    </div>
+  </div>
+</div>

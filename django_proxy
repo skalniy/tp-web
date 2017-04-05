@@ -1,0 +1,29 @@
+upstream proxy {
+    server 127.0.0.1:8000;
+}
+
+proxy_cache_path /var/lib/nginx/cache/ keys_zone=cache:10m max_size=30m;
+
+server {
+	listen 80;
+	listen [::]:80;
+
+    proxy_cache cache;
+    
+    location /static/ {
+        root /vagrant/tp-web/ask_naumov/;
+    }
+    
+    location /uploads/ {
+        root /vagrant/tp-web/ask_naumov/;
+    }
+
+    location / {
+        proxy_pass  http://proxy;
+    }
+
+    gzip            on;
+    gzip_min_length 1000;
+    gzip_proxied    expired no-cache no-store private auth;
+    gzip_types      *;
+}
