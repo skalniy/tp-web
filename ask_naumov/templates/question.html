@@ -1,0 +1,62 @@
+{% extends "./base.html" %}
+
+{% block header %}
+  <div class="row">
+    <div class="col-sm-2">
+      {% load static %}
+      <img src="{% static "./img/avatar.jpg" %}" class="img-responsive img-rounded">
+      <br>
+      <input type="number" class="form-control" value="5">
+    </div>
+    <div class="col-sm-10">
+      <h3>{% lorem 6 w random %}<small>{{ question_id}}</small></h3>
+      {% lorem 2 p random %}
+     <p>
+      Tags:
+      {% for t in qtags %}
+          <a href="{% url 'tag' 'bender' %}">{% lorem 1 w random %}</a>
+      {% endfor %}
+     </p>
+    </div>
+  </div>
+{% endblock %}
+
+{% block userblock %}
+  {% include "./userblock_auth.html" %}
+{% endblock %}
+
+{% block content %}
+  <div class="list-group">
+    {% for a in answers %}
+      <div class="row list-group-item">
+        <div class="col-sm-2 ">
+          {% load static %}
+          <img src="{% static "./img/avatar.jpg" %}" class="img-responsive img-rounded">
+          <br>
+          <input type="number" class="form-control" value="5">
+        </div>
+
+        <div class="col-sm-10">
+          <small>{{ a.id }}</small>
+          <p class="list-group-item-text">{% lorem 1 b random %}</p>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox"> Correct!
+            </label>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+
+    {% include './paginator.html' with objects=answers %}
+
+    <form class="row">
+      <div class="form-group">
+        <textarea class="form-control" placeholder="Enter your answer here..." rows="4"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">
+        Answer
+      </button>
+    </form>
+  </div>
+{% endblock %}

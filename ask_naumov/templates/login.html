@@ -1,0 +1,39 @@
+{% extends "./base.html" %}
+
+{% block header %}
+  <h1>Log In</h1>
+{% endblock %}
+
+{% block userblock %}
+  {% include "./userblock_anon.html" %}
+{% endblock %}
+
+{% block content %}
+  <form class="form-horizontal">
+    <div class="row">
+      <div class="alert alert-danger">Sorry, wrong password!</div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-4 control-label">Login</label>
+      <div class="col-sm-4">
+        <input type="text" class="form-control"  maxlength="32" required placeholder="Login">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-4 control-label">Password</label>
+      <div class="col-sm-4">
+        <input type="password" class="form-control" maxlength="32" required placeholder="Password">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-offset-4 col-sm-10">
+        <button type="submit" class="btn btn-default">Log in!</button>
+      </div>
+    </div>
+  </form>
+  
+  <div class="col-sm-offset-4 col-sm-10"><a href="">create new account</a></div>
+{% endblock %}
