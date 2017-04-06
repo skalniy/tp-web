@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.core.paginator import Paginator
 
 context = {
   'qtags' : [" "] * 3,
@@ -8,24 +9,47 @@ context = {
 
 # Create your views here.
 def index(request):
-    context['questions'] = [" "] * 20
-    context['qtags'] = [" "] * 3
+    questions = [
+        {
+            'title': 'title' + str(i),
+            'id': i,
+        } for i in range(1,100)
+    ]
+    context['questions'] = paginate(questions, request, 20)
+    context['header'] = 'index'
     return render(request, './index.html', context)
 
 def hot(request):
-    context['questions'] = [" "] * 20
-    context['qtags'] = [" "] * 3
-    return render(request, './hot.html', context)
+    questions = [
+        {
+            'title': 'title' + str(i),
+            'id': i,
+        } for i in range(1,100)
+    ]
+    context['questions'] = paginate(questions, request, 20)
+    context['header'] = 'hot'
+    return render(request, './index.html', context)
 
 def tag(request, tag):
-    context['questions'] = [" "] * 20
+    questions = [
+        {
+            'title': 'title' + str(i),
+            'id': i,
+        } for i in range(1,100)
+    ]
+    context['questions'] = paginate(questions, request, 20)
     context['tag'] = tag
-    context['qtags'] = [" "] * 3
-    return render(request, './tag.html', context)
+    context['header'] = 'tag'
+    return render(request, './index.html', context)
 
 def question(request, question_id):
-    context['qtags'] = [" "] * 3
-    context['answers'] = [" "] * 20
+    answers = [
+        {
+            'text': 'text' + str(i),
+            'id': i,
+        } for i in range(1,100)
+    ]
+    context['answers'] = paginate(answers, request, 30)
     context['question_id'] = question_id
     return render(request, './question.html', context)
 
@@ -40,3 +64,12 @@ def ask(request):
 
 def settings(request):
     return render(request, './settings.html', context)
+
+def paginate(objects_list, request, page_size):
+    paginator = Paginator(objects_list, page_size)
+    page = request.GET.get('page') if request.GET.get('page') else 1
+    try:
+        objects = paginator.page(page)
+    except:
+        objects = paginator.page(1)
+    return objects
