@@ -27,18 +27,31 @@
           {% load static %}
           <img src="{% static "./img/avatar.jpg" %}" class="img-responsive img-rounded">
           <br>
-          <input type="number" class="form-control" value="5">
+          <input type="number" class="form-control" value="{{ q.rating }}">
         </div>
         <div class="col-sm-10">
-          <h4 class="list-group-item-heading"><a href="{% url 'question' q.id %}">{% lorem 6 w random %} <small>#{{ q.title }}</small> </a></h4>
-          <p class="list-group-item-text">{% lorem 1 b random %}</p>
+          <h4 class="list-group-item-heading">
+            <a href="{% url 'question' q.id %}">
+              {{ q.title }}
+            </a>
+          </h4>
+          <p class="list-group-item-text">
+            {{ q.content }}<br>
+            {% lorem 1 b random %}
+          </p>
           <br>
           <div class="row">
-            <p class="col-sm-2"><a href="/question">answers (3)</a></p>
-            <p class="col-sm-10">
+            <p class="col-sm-3">
+              <a href="{% url 'question' q.id %}">
+                answers ({{ q.answer_set.count }})
+              </a>
+            </p>
+            <p class="col-sm-9">
               Tags:
-              {% for t in qtags %}
-                  <a href="{% url 'tag' 'bender' %}">{% lorem 1 w random %}</a>
+              {% for t in q.taglist %}
+                <a href="{% url 'tag' t.content %}">
+                  {{ t.content }}
+                </a>
               {% endfor %}
             </p>
           </div>
