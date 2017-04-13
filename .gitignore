@@ -87,3 +87,6 @@ ENV/
 
 # Rope project settings
 .ropeproject
+ask_naumov/ask/migrations/0001_initial.py
+
+ask_naumov/db.sqlite3
