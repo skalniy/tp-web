@@ -2,21 +2,21 @@
 
 {% block header %}
   <div class="row">
-    <div class="col-sm-2">
+    <div class="col-sm-3">
       {% load static %}
       <img src="{% static "./img/avatar.jpg" %}" class="img-responsive img-rounded">
       <br>
-      <input type="number" class="form-control" value="5">
+      <input type="number" class="form-control" value="{{ question.rating }}">
     </div>
-    <div class="col-sm-10">
-      <h3>{% lorem 6 w random %}<small>{{ question_id}}</small></h3>
+    <div class="col-sm-9">
+      <h3>{{ question.title}}</h3>
       {% lorem 2 p random %}
-     <p>
-      Tags:
-      {% for t in qtags %}
-          <a href="{% url 'tag' 'bender' %}">{% lorem 1 w random %}</a>
-      {% endfor %}
-     </p>
+      <p>
+        Tags:
+        {% for t in question.taglist %}
+          <a href="{% url 'tag' t.content %}">{{ t.content }}</a>
+        {% endfor %}
+      </p>
     </div>
   </div>
 {% endblock %}
@@ -33,7 +33,7 @@
           {% load static %}
           <img src="{% static "./img/avatar.jpg" %}" class="img-responsive img-rounded">
           <br>
-          <input type="number" class="form-control" value="5">
+          <input type="number" class="form-control" value="{{ a.rating }}">
         </div>
 
         <div class="col-sm-10">
@@ -41,7 +41,7 @@
           <p class="list-group-item-text">{% lorem 1 b random %}</p>
           <div class="checkbox">
             <label>
-              <input type="checkbox"> Correct!
+              <input type="checkbox" {% if a.is_correct %}checked{% endif %}> Correct!
             </label>
           </div>
         </div>

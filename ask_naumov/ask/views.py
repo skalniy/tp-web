@@ -1,56 +1,42 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator
+from .models import Question, Tag
+from django.shortcuts import get_object_or_404
 
 context = {
-  'qtags' : [" "] * 3,
   'toptags' : [" "] * 20,
   'topusers' : [" "] * 10,
 }
 
 # Create your views here.
 def index(request):
-    questions = [
-        {
-            'title': 'title' + str(i),
-            'id': i,
-        } for i in range(1,100)
-    ]
+    questions = Question.objects.recent()
     context['questions'] = paginate(questions, request, 20)
+    for q in context['questions']: q.taglist = q.tags.all()
     context['header'] = 'index'
     return render(request, './index.html', context)
 
 def hot(request):
-    questions = [
-        {
-            'title': 'title' + str(i),
-            'id': i,
-        } for i in range(1,100)
-    ]
-    context['questions'] = paginate(questions, request, 20)
+    questions = Question.objects.hot()
+    context['questions'] =  paginate(questions, request, 20)
+    for q in context['questions']: q.taglist = q.tags.all()
     context['header'] = 'hot'
     return render(request, './index.html', context)
 
 def tag(request, tag):
-    questions = [
-        {
-            'title': 'title' + str(i),
-            'id': i,
-        } for i in range(1,100)
-    ]
+    questions = get_object_or_404(Tag, pk=tag).question_set.all()
     context['questions'] = paginate(questions, request, 20)
+    for q in context['questions']: q.taglist = q.tags.all()
     context['tag'] = tag
     context['header'] = 'tag'
     return render(request, './index.html', context)
 
 def question(request, question_id):
-    answers = [
-        {
-            'text': 'text' + str(i),
-            'id': i,
-        } for i in range(1,100)
-    ]
+    question = get_object_or_404(Question, pk=question_id)
+    question.taglist = question.tags.all()
+    answers = question.answer_set.all()
     context['answers'] = paginate(answers, request, 30)
-    context['question_id'] = question_id
+    context['question'] = question
     return render(request, './question.html', context)
 
 def login(request):
