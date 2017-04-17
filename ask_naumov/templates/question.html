@@ -4,7 +4,7 @@
   <div class="row">
     <div class="col-sm-3">
       {% load static %}
-      <img src="{% static "./img/avatar.jpg" %}" class="img-responsive img-rounded">
+      <img src="/uploads/{{ question.author.avatar.name}}" class="img-responsive img-rounded">
       <br>
       <input type="number" class="form-control" value="{{ question.rating }}">
     </div>
@@ -26,8 +26,7 @@
     {% for a in answers %}
       <div class="row list-group-item">
         <div class="col-sm-2 ">
-          {% load static %}
-          <img src="{% static "./img/avatar.jpg" %}" class="img-responsive img-rounded">
+          <img src="/uploads/{{ a.author.avatar.name}}" class="img-responsive img-rounded">
           <br>
           <input type="number" class="form-control" value="{{ a.rating }}">
         </div>

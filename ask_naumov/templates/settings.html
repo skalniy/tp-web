@@ -31,8 +31,7 @@
     <label class="col-sm-4 control-label">Upload avatar</label>
     
     <div class="col-sm-4">
-       {% load static %}
-      <img src="{% static "./img/avatar.jpg" %}" class="img-responsive img-thumbnail" >
+      <img src="/uploads/{{ user.profile.avatar.name }}" class="img-responsive img-thumbnail" >
       <input type="file">
     </div>
   </div>

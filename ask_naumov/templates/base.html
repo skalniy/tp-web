@@ -44,8 +44,7 @@
         <ul class="nav navbar-nav navbar-right">
           {% if user.is_authenticated %}
             <li>
-              {% load static %}
-              <img src="{% static './img/avatar.jpg' %}" class="img-rounded navbar-brand">
+              <img src="/uploads/{{ user.profile.avatar.name }}" class="img-rounded navbar-brand">
             </li>
             <li>
               <p class="navbar-text">{{ user.username }}</p>

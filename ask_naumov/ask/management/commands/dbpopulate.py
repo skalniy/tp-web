@@ -30,7 +30,8 @@ class Command(BaseCommand):
                 if i % k == 0: 
                     q.tags.add(v)
             for j in range(1, random.randint(1,150)): 
-                q.answer_set.create(content='text'+str(j), rating=random.randint(1,5), is_correct=random.choice([True, False]))
+                q.answer_set.create(content='text'+str(j), rating=random.randint(1,5), is_correct=random.choice([True, False]),
+                                   author=random.choice(profiles))
             q.save()
         
         self.stdout.write(self.style.SUCCESS('DB successfully populated'))
