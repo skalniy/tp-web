@@ -48,7 +48,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User)
     email = models.EmailField()
     nickname = models.SlugField()
-    password = models.CharField(max_length=50)
+    password = models.CharField(max_length=32)
     avatar = models.CharField(max_length=255)
     rating = models.IntegerField()
     reg_date = models.DateTimeField(auto_now_add=True)

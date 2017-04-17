@@ -1,11 +1,7 @@
 {% extends "./base.html" %}
 
 {% block header %}
-  <h1>Settings: Username</h1>
-{% endblock %}
-
-{% block userblock %}
-  {% include "./userblock_auth.html" %}
+  <h1>Settings: {{ user.username }}</h1>
 {% endblock %}
 
 {% block content %}

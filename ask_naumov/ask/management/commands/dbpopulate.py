@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
+from django.contrib.auth.models import User
 from ask.models import Answer, Question, Tag
 import random
 
@@ -6,6 +7,8 @@ class Command(BaseCommand):
     help = 'Populate db'
 
     def handle(self, *args, **options):
+        users = [User.objects.create_user('user'+str(i), str(i)+'@.com', 'pass'+str(i)) for i in range(20)]
+        
         tags = { i : Tag.objects.create(content='tag'+str(i)) for i in range(2,9) }
         
         for i in range(1, 150):
