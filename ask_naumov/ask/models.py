@@ -20,6 +20,14 @@ class Tag(models.Model):
     def get_absolute_url(self):
         return '/tag/%s' % self.content
 
+class Profile(models.Model):
+    user = models.OneToOneField(User)
+    avatar = models.FileField()
+    rating = models.IntegerField()
+    reg_date = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.nickname
 
 class Question(models.Model):
     title = models.CharField(max_length=255)
@@ -27,6 +35,8 @@ class Question(models.Model):
     rating = models.IntegerField()
     creation_date = models.DateTimeField(auto_now_add=True)
     tags = models.ManyToManyField(Tag)
+    
+    author = models.ForeignKey(Profile, on_delete=models.CASCADE)
     
     objects = QuestionManager()
     
@@ -42,16 +52,3 @@ class Answer(models.Model):
     is_correct = models.BooleanField()
     rating = models.IntegerField()
     creation_date = models.DateTimeField(auto_now_add=True)
-
-
-class Profile(models.Model):
-    user = models.OneToOneField(User)
-    email = models.EmailField()
-    nickname = models.SlugField()
-    password = models.CharField(max_length=32)
-    avatar = models.CharField(max_length=255)
-    rating = models.IntegerField()
-    reg_date = models.DateTimeField(auto_now_add=True)
-    
-    def __str__(self):
-        return self.nickname

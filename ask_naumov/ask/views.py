@@ -23,7 +23,8 @@ def index(request):
 def hot(request):
     questions = Question.objects.hot()
     context['questions'] =  paginate(questions, request, 20)
-    for q in context['questions']: q.taglist = q.tags.all()
+    for q in context['questions']: 
+        q.taglist = q.tags.all()
     context['header'] = 'hot'
     return render(request, './index.html', context)
 
