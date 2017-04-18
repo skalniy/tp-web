@@ -1,5 +1,7 @@
 from django.db import models
+from django.forms import ModelForm
 from django.contrib.auth.models import User
+from django import forms
 
 
 
@@ -53,3 +55,9 @@ class Answer(models.Model):
     is_correct = models.BooleanField()
     rating = models.IntegerField()
     creation_date = models.DateTimeField(auto_now_add=True)
+
+class AnswerForm(ModelForm):
+    class Meta:
+        model = Answer
+        fields = ['content']
+        widgets = { 'content': forms.Textarea(attrs={'class' : 'form-control'}) }

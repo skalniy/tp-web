@@ -23,6 +23,8 @@
 
 {% block content %}
   <div class="list-group">
+    {% include './paginator.html' with objects=answers %}
+    
     {% for a in answers %}
       <div class="row list-group-item">
         <div class="col-sm-2 ">
@@ -33,7 +35,11 @@
 
         <div class="col-sm-10">
           <small>{{ a.id }}</small>
-          <p class="list-group-item-text">{% lorem 1 b random %}</p>
+          <p class="list-group-item-text">
+            {{ a.content }}<br>
+            {% lorem 1 b random %}
+          </p>
+          
           <div class="checkbox">
             <label>
               <input type="checkbox" {% if a.is_correct %}checked{% endif %}> Correct!
@@ -45,13 +51,29 @@
 
     {% include './paginator.html' with objects=answers %}
 
-    <form class="row">
-      <div class="form-group">
-        <textarea class="form-control" placeholder="Enter your answer here..." rows="4"></textarea>
-      </div>
-      <button type="submit" class="btn btn-primary">
-        Answer
-      </button>
-    </form>
+    {% if user.is_authenticated %}
+      <form action="{% url 'question' question.id %}" method="post" class="row">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+          <div class="row">
+            <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+          </div>
+        {% endif %}
+        
+        {% for field in form %}
+          <div class="form-group">
+            {{ field.errors }}
+            {{ field }}
+            {% if field.help_text %}
+              <p class="help">{{ field.help_text|safe }}</p>
+            {% endif %}
+          </div>
+        {% endfor %}
+        
+        <button type="submit" class="btn btn-primary">
+          Answer
+        </button>
+      </form>
+    {% endif %}
   </div>
 {% endblock %}

@@ -5,4 +5,3 @@ class LoginForm(forms.Form):
                             widget=forms.TextInput(attrs={'class' : 'form-control'}))
     password = forms.CharField(label='Password', max_length=32,
                             widget=forms.PasswordInput(attrs={'class' : 'form-control'}))
-#    location = forms.CharField(label='next', max_length=30, widget=forms.HiddenInput())

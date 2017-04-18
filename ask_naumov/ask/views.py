@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate, login as log_in, logout as log_out
 from django.contrib.auth.decorators import login_required
 
-from .models import Question, Tag
+from .models import Question, Tag, AnswerForm, Answer
 from .forms import LoginForm
 
 
@@ -23,8 +23,7 @@ def index(request):
 def hot(request):
     questions = Question.objects.hot()
     context['questions'] =  paginate(questions, request, 20)
-    for q in context['questions']: 
-        q.taglist = q.tags.all()
+    for q in context['questions']: q.taglist = q.tags.all()
     context['header'] = 'hot'
     return render(request, './index.html', context)
 
@@ -38,6 +37,15 @@ def tag(request, tag):
 
 def question(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
+    
+    if request.method == 'POST':
+        if not request.user.is_authenticated:
+            return redirect('%s?continue=%s' % (settings.LOGIN_URL, request.path))
+        answer = Answer(question=question, author=request.user.profile, rating=0, is_correct=False)
+        form = AnswerForm(request.POST, instance=answer)
+        form.save()
+
+    context['form'] = AnswerForm()
     question.taglist = question.tags.all()
     answers = question.answer_set.all()
     context['answers'] = paginate(answers, request, 30)
