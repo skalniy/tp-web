@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
-from django.contrib.auth import authenticate, login as log_in, logout as log_out
+from django.contrib.auth import authenticate, update_session_auth_hash, login as log_in, logout as log_out
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.hashers import make_password
 
-from .models import Question, Tag, AnswerForm, Answer
+from .models import Question, Tag, AnswerForm, Answer, UserForm, ProfileForm
 from .forms import LoginForm
 
 
@@ -37,14 +38,13 @@ def tag(request, tag):
 
 def question(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
-    
     if request.method == 'POST':
         if not request.user.is_authenticated:
             return redirect('%s?continue=%s' % (settings.LOGIN_URL, request.path))
         answer = Answer(question=question, author=request.user.profile, rating=0, is_correct=False)
         form = AnswerForm(request.POST, instance=answer)
         form.save()
-
+    
     context['form'] = AnswerForm()
     question.taglist = question.tags.all()
     answers = question.answer_set.all()
@@ -84,6 +84,23 @@ def ask(request):
 
 @login_required(redirect_field_name='continue')
 def settings(request):
+    if request.method == 'POST':
+        context['userform'] = UserForm(request.POST, instance=request.user)
+        context['profileform'] = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        user = context['userform'].save(commit=False)
+        if authenticate(username=request.user.username, password=user.password) is None:
+            context['userform'].non_field_errors = 'Authentication error'
+        else:
+            user.password = make_password(user.password)
+            user.save()
+            update_session_auth_hash(request, user)
+            context['profileform'].save()
+    elif request.method == 'GET':
+        context['userform'] = UserForm(initial={
+          'username' : request.user.username,
+          'email' : request.user.email,
+        })
+        context['profileform'] = ProfileForm(initial={'avatar' : request.user.profile.avatar})
     return render(request, './settings.html', context)
 
 def paginate(objects_list, request, page_size):

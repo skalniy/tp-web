@@ -5,40 +5,78 @@
 {% endblock %}
 
 {% block content %}
-<form class="form-horizontal">
-  <div class="form-group">
-    <label class="col-sm-4 control-label">Login</label>
-    <div class="col-sm-4">
-      <input type="text" class="form-control"  maxlength="32" required placeholder="Login">
+<form method="post" action="{% url 'settings' %}" enctype="multipart/form-data" class="form-horizontal">
+  {% csrf_token %}
+  {% if userform.non_field_errors %}
+    <div class="row">
+      <div class="col-sm-offset-4 col-sm-4">
+        <div class="alert alert-danger">{{ userform.non_field_errors }}</div>
+      </div>
     </div>
-  </div>
+  {% endif %}
   
-  <div class="form-group">
-    <label class="col-sm-4 control-label">Email</label>
-    <div class="col-sm-4">
-      <input type="email" class="form-control" required placeholder="Email">
+  {% if profileform.non_field_errors %}
+    <div class="row">
+      <div class="alert alert-danger">{{ profileform.non_field_errors }}</div>
     </div>
-  </div>
+  {% endif %}
   
-  <div class="form-group">
-    <label class="col-sm-4 control-label">NickName</label>
-    <div class="col-sm-4">
-      <input type="text" class="form-control" maxlength="32" required placeholder="NickName">
-    </div>
-  </div>
-  
-  <div class="form-group">
-    <label class="col-sm-4 control-label">Upload avatar</label>
+  {% for field in userform %}
+    {% if field.errors %}
+      <div class="row">
+        <div class="col-sm-offset-4 col-sm-4">
+          <div class="alert alert-danger">{{ field.errors }}</div>
+        </div>
+      </div>
+    {% endif %}
     
-    <div class="col-sm-4">
+    <div class="form-group">
+      <label class="col-sm-4 control-label">
+        {{ field.label }}
+      </label>
+      <div class="col-sm-4">
+        {{ field }}
+      </div>
+      {% if field.help_text %}
+        <div class="col-sm-4">
+          <p class="form-control-static">{{ field.help_text|safe }}</p>
+        </div>
+      {% endif %}
+    </div>
+  {% endfor %}
+  
+  {% for field in profileform %}
+    {% if field.errors %}
+      <div class="row">
+        <div class="col-sm-offset-4 col-sm-4">
+          <div class="alert alert-danger">{{ field.errors }}</div>
+        </div>
+      </div>
+    {% endif %}
+    
+    <div class="form-group">
+      <label class="col-sm-4 control-label">
+        {{ field.label }}
+      </label>
+      <div class="col-sm-4">
+        {{ field }}
+      </div>
+      {% if field.help_text %}
+        <div class="col-sm-4">
+          <p class="form-control-static">{{ field.help_text|safe }}</p>
+        </div>
+      {% endif %}
+    </div>
+  {% endfor %}
+  
+  <div class="form-group">
+    <div class="col-sm-offset-4 col-sm-4">
       <img src="/uploads/{{ user.profile.avatar.name }}" class="img-responsive img-thumbnail" >
-      <input type="file">
     </div>
   </div>
-  
+
   <div class="form-group">
     <div class="col-sm-offset-4 col-sm-10">
-      
       <button type="submit" class="btn btn-default">Save</button>
     </div>
   </div>

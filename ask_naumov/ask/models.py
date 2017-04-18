@@ -60,4 +60,20 @@ class AnswerForm(ModelForm):
     class Meta:
         model = Answer
         fields = ['content']
-        widgets = { 'content': forms.Textarea(attrs={'class' : 'form-control'}) }
+        widgets = { 'content': forms.Textarea(attrs={'class' : 'form-control'})}
+
+class ProfileForm(ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['avatar']
+        widgets = { 'content': forms.FileInput(attrs={'class' : 'form-control'})}
+
+class UserForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ['username' , 'password', 'email' ]
+        widgets = {
+          'username': forms.TextInput(attrs={'class' : 'form-control'}),
+          'password': forms.PasswordInput(attrs={'class' : 'form-control'}),
+          'email': forms.EmailInput(attrs={'class' : 'form-control'})
+        }
