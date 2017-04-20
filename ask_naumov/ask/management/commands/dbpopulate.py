@@ -13,7 +13,7 @@ class Command(BaseCommand):
         
         profiles = list()
         for i in range(len(users)):
-            avaname = 'avatar1.jpg' if random.choice([True, False]) else 'avatar2.jpg'
+            avaname = random.choice(['avatar1.jpg', 'avatar2.jpg'])
             ava = open(os.path.join(settings.MEDIA_ROOT, avaname), 'rb')
             profile = Profile.objects.create(user=users[i], rating=random.randint(1,5))
             profile.avatar.save('av'+str(i)+'.jpg', File(ava))

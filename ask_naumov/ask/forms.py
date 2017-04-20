@@ -28,8 +28,8 @@ class SignupForm(forms.Form):
                             widget=forms.PasswordInput(attrs={'class' : 'form-control'}))
     repeated = forms.CharField(label='Repeat Password', max_length=150,
                             widget=forms.PasswordInput(attrs={'class' : 'form-control'}))
-    avatar = forms.ImageField(label='Avatar', required=False,
-                             widget=forms.FileInput(attrs={'class' : 'form-control'}))
+#    avatar = forms.ImageField(label='Avatar', required=False,
+#                             widget=forms.FileInput(attrs={'class' : 'form-control'}))
     
     def clean(self):
         cleaned_data = super(SignupForm, self).clean()
@@ -38,6 +38,7 @@ class SignupForm(forms.Form):
             raise forms.ValidationError("Password ain't equal")
         
     def clean_username(self):
-        if User.objects.get(username=self.cleaned_data['username']):
+        data = self.cleaned_data['username']
+        if User.objects.filter(username=data).exists():
             raise forms.ValidationError("Username already registered")
-
+        return data
