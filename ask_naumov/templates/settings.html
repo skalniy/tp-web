@@ -14,13 +14,6 @@
       </div>
     </div>
   {% endif %}
-  
-  {% if profileform.non_field_errors %}
-    <div class="row">
-      <div class="alert alert-danger">{{ profileform.non_field_errors }}</div>
-    </div>
-  {% endif %}
-  
   {% for field in userform %}
     {% if field.errors %}
       <div class="row">
@@ -45,6 +38,42 @@
     </div>
   {% endfor %}
   
+  {% if passupdateform.non_field_errors %}
+    <div class="row">
+      <div class="col-sm-offset-4 col-sm-4">
+        <div class="alert alert-danger">{{ passupdateform.non_field_errors }}</div>
+      </div>
+    </div>
+  {% endif %}
+  {% for field in passupdateform %}
+    {% if field.errors %}
+      <div class="row">
+        <div class="col-sm-offset-4 col-sm-4">
+          <div class="alert alert-danger">{{ field.errors }}</div>
+        </div>
+      </div>
+    {% endif %}
+    
+    <div class="form-group">
+      <label class="col-sm-4 control-label">
+        {{ field.label }}
+      </label>
+      <div class="col-sm-4">
+        {{ field }}
+      </div>
+      {% if field.help_text %}
+        <div class="col-sm-4">
+          <p class="form-control-static">{{ field.help_text|safe }}</p>
+        </div>
+      {% endif %}
+    </div>
+  {% endfor %}
+  
+  {% if profileform.non_field_errors %}
+    <div class="row">
+      <div class="alert alert-danger">{{ profileform.non_field_errors }}</div>
+    </div>
+  {% endif %}
   {% for field in profileform %}
     {% if field.errors %}
       <div class="row">

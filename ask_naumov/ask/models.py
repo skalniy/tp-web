@@ -37,9 +37,7 @@ class Question(models.Model):
     rating = models.IntegerField()
     creation_date = models.DateTimeField(auto_now_add=True)
     tags = models.ManyToManyField(Tag)
-    
     author = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    
     objects = QuestionManager()
     
     def __str__(self):
@@ -71,7 +69,7 @@ class ProfileForm(ModelForm):
 class UserForm(ModelForm):
     class Meta:
         model = User
-        fields = ['username' , 'password', 'email' ]
+        fields = ['username' , 'email', 'password' ]
         widgets = {
           'username': forms.TextInput(attrs={'class' : 'form-control'}),
           'password': forms.PasswordInput(attrs={'class' : 'form-control'}),

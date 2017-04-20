@@ -5,52 +5,38 @@
 {% endblock %}
 
 {% block content %}
-<form class="form-horizontal">
-  <div class="row">
-    <div class="alert alert-danger">Sorry, this email already registered!</div>
-  </div>
-
-  <div class="form-group">
-    <label class="col-sm-4 control-label">Login</label>
-    <div class="col-sm-4">
-      <input type="text" class="form-control"  maxlength="32" required placeholder="Login">
+<form action="{% url 'signup' %}" method="post" class="form-horizontal">
+  {% csrf_token %}
+  {% if form.non_field_errors %}
+    <div class="row">
+      <div class="col-sm-offset-4 col-sm-4">
+        <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+      </div>
     </div>
-  </div>
-  
-  <div class="form-group">
-    <label class="col-sm-4 control-label">Email</label>
-    <div class="col-sm-4">
-      <input type="email" class="form-control" required placeholder="Email">
+  {% endif %}
+  {% for field in form %}
+    {% if field.errors %}
+      <div class="row">
+        <div class="col-sm-offset-4 col-sm-4">
+          <div class="alert alert-danger">{{ field.errors }}</div>
+        </div>
+      </div>
+    {% endif %}
+    
+    <div class="form-group">
+      <label class="col-sm-4 control-label">
+        {{ field.label }}
+      </label>
+      <div class="col-sm-4">
+        {{ field }}
+      </div>
+      {% if field.help_text %}
+        <div class="col-sm-4">
+          <p class="form-control-static">{{ field.help_text|safe }}</p>
+        </div>
+      {% endif %}
     </div>
-  </div>
-  
-  <div class="form-group">
-    <label class="col-sm-4 control-label">NickName</label>
-    <div class="col-sm-4">
-      <input type="text" class="form-control" maxlength="32" required placeholder="NickName">
-    </div>
-  </div>
-  
-  <div class="form-group">
-    <label class="col-sm-4 control-label">Password</label>
-    <div class="col-sm-4">
-      <input type="password" class="form-control" maxlength="32" required placeholder="Password">
-    </div>
-  </div>
-  
-  <div class="form-group">
-    <label class="col-sm-4 control-label">Repeat password</label>
-    <div class="col-sm-4">
-      <input type="password" class="form-control" maxlength="32" required placeholder="Repeat password">
-    </div>
-  </div>
-  
-  <div class="form-group">
-    <label class="col-sm-4 control-label">Upload avatar</label>
-    <div class="col-sm-4">
-      <input type="file">
-    </div>
-  </div>
+  {% endfor %}
   
   <div class="form-group">
     <div class="col-sm-offset-4 col-sm-10">
